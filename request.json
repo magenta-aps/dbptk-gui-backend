@@ -1,0 +1,17 @@
+{
+	"import-module": {
+		"name": "mysql",
+		"parameters": {
+			"import-hostname": "localhost",
+			"import-database": "world",
+			"import-username": "andreas",
+			"import-password": "hemmeligt"
+		}
+	},
+	"export-module": {
+		"name": "siard-dk",
+		"parameters": {
+			"export-folder": "/tmp/AVID.MAG.1000.1"
+		}
+	}
+}
