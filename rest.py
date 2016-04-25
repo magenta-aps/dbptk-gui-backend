@@ -10,6 +10,7 @@ class STATUS(Enum):
     NOT_RUNNING = 'NOT RUNNING'
     OK = 'OK'
     RUNNING = 'RUNNING'
+    TERMINATED = 'TERMINATED'
 
 
 class MESSAGES(Enum):
@@ -224,5 +225,18 @@ def start_process():
     return jsonify({'status': STATUS.RUNNING})
 
     
+@app.route('/terminate', methods = ['GET'])
+def terminate_process():
+    error_json = {'status': STATUS.ERROR, 'message': 'The process could not be terminated!'}
+    if not process == None:
+        process.terminate()
+        returncode = process.poll()
+        if returncode == None:
+            return jsonify({'status': STATUS.TERMINATED})
+        else:
+            return jsonify(error_json)
+    else:
+        return jsonify(error_json)
+
 if __name__ == '__main__':
     app.run(debug=True)
