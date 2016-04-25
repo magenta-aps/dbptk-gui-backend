@@ -37,33 +37,47 @@ class Module(object):
             if not key in self.parameters:
                 return {'status': STATUS.ERROR, 'message': MESSAGES.INVALID_PARAMETER}
         for key in self.parameters:
-            if self.parameters[key] == PARAMETERS.REQUIRED and key not in parameters:
+            if self.parameters[key] == PARAMETER.REQUIRED and key not in parameters:
                 return {'status': STATUS.ERROR, 'message': MESSAGES.REQUIRED_PARAMETER_MISSING, 'parameter': key}
+        return {'status': STATUS.OK}
     def check_parameter_values(self, parameters):
         # TODO: check parameter values
         pass
 
 
 class JSONChecker(object):
-    import_modules = ('jdbc', 'microsoft-access', 'microsoft-sql-server', 'mysql', 'oracle', 'postgresql', 'siard-1', 'siard-2', 'siard-dk')
-    export_modules = ('jdbc', 'list-tables', 'microsoft-sql-server', 'mysql', 'oracle', 'postgresql', 'siard-1', 'siard-2', 'siard-dk')
+    import_modules = {'jdbc': None, 'microsoft-access': None, 'microsoft-sql-server': None, 'mysql': Module({'import-hostname': PARAMETER.REQUIRED, 'import-database': PARAMETER.REQUIRED, 'import-username': PARAMETER.REQUIRED, 
+                              'import-password': PARAMETER.REQUIRED, 'import-port-number': PARAMETER.OPTIONAL}), 'oracle': None, 'postgresql': None, 'siard-1': None, 'siard-2': None, 'siard-dk': None}
+    export_modules = {'jdbc': None, 'list-tables': None, 'microsoft-sql-server': None, 'mysql': None, 'oracle': None, 'postgresql': None, 'siard-1': None, 'siard-2': None, 'siard-dk':Module({'export-folder': PARAMETER.REQUIRED, 'export-archiveIndex': PARAMETER.OPTIONAL, 'export-contextDocumentationIndex': PARAMETER.OPTIONAL, 'export-contextDocumentationFolder': PARAMETER.OPTIONAL})}
     
     @staticmethod
-    def isJsonOk(json):
-        if not 'import-module' in json or not 'export-module' in json:
-            return False
-        import_module = json['import-module']
-        export_module = json['export-module']
-        if not 'name' in import_module or not 'parameters' in import_module:
-            return False
-        if not 'name' in export_module or not 'parameters' in export_module:
-            return False
-        if not import_module['name'] in JSONChecker.import_modules or not export_module['name'] in JSONChecker.export_modules:
-            return False
-        return True
+    def checkJson(json):
+        message = 'OK'
+        if 'import-module' in json and 'export-module' in json:
+            import_module = json['import-module']
+            export_module = json['export-module']
+            if 'name' in import_module and 'parameters' in import_module and 'name' in export_module and 'parameters' in export_module:
+                if not import_module['name'] in JSONChecker.import_modules or not export_module['name'] in JSONChecker.export_modules:
+                    message = 'Invalid name for module'
+            else:
+                message = 'name or parameters missing in module'
+        else:
+            message = 'import-module or export-module missing'            
+        if not message == 'OK':
+            return {'status': STATUS.ERROR, 'message': message} 
+                
+        name = import_module['name']
+        parameters = import_module['parameters']
+        module = JSONChecker.import_modules[name]
+        resp = module.check_parameter_keys(parameters)
         
-MySQL_import_module = Module({'import-hostname': PARAMETER.REQUIRED, 'import-database': PARAMETER.REQUIRED, 'import-username': PARAMETER.REQUIRED, 
-                              'import-password': PARAMETER.REQUIRED, 'import-port-number': PARAMETER.OPTIONAL})
+        if resp['status'] == STATUS.ERROR:
+            return resp
+        
+        return {'status': message}
+        
+# MySQL_import_module = Module({'import-hostname': PARAMETER.REQUIRED, 'import-database': PARAMETER.REQUIRED, 'import-username': PARAMETER.REQUIRED, 
+#                               'import-password': PARAMETER.REQUIRED, 'import-port-number': PARAMETER.OPTIONAL})
     
 
 
@@ -116,10 +130,10 @@ def start_process():
         abort(400)
     
     # Check json
-    if not JSONChecker.isJsonOk(request.json):
-        return jsonify({'status': STATUS.ERROR, MESSAGES.INVALID_JSON})
-    import_parameters = request.json['import-module']
-
+    check = JSONChecker.checkJson(request.json)
+    if not check['status'] == STATUS.OK:
+        return jsonify(check)
+    
     # args = ['java', '-jar', '/home/andreas/eark/db-preservation-toolkit/dbptk-core/target/dbptk-app-2.0.0-rc3.2.5.jar', '-i', 'mysql', '-ih', 'localhost',
     #       '-idb', 'sakila', '-iu', 'andreas', '-ip', 'hemmeligt', '-e', 'siard-dk', '-ef', '/tmp/AVID.MAG.1000.1']
     
