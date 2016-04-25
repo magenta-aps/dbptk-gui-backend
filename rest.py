@@ -1,7 +1,8 @@
 from enum import Enum
 from flask import Flask, jsonify, request, abort
 from flask.ext.cors import CORS
-from os.path import isfile
+from os import listdir
+from os.path import isfile, isdir, isabs, islink, join
 from subprocess import Popen, PIPE
 
 class STATUS(Enum):
@@ -14,11 +15,13 @@ class STATUS(Enum):
 
 
 class MESSAGES(Enum):
+    COULD_NOT_LIST_FOLDER_CONTENT = 'Could not list folder content'
     EMPTY_VALUE = 'Empty value'
     INVALID_JSON = 'The structure of the JSON is invalid'
     INVALID_PARAMETER = 'Invalid parameter'
     REQUIRED_PARAMETER_MISSING = 'Required parameter missing'
     PARAMETER_LIST_EMPTY = 'Parameter list empty'
+    PATH_IS_NOT_A_FOLDER = 'Path is not a folder'
     PATH_IS_NOT_A_FILE = 'Path is not a file'
     PATH_NOT_FOUND = '\'path\' not found in JSON request'
     PATH_TO_JAR_NOT_SET = 'Path to DBPTK jar is not set'
@@ -159,6 +162,32 @@ def get_jar():
     return jsonify({'path': path_to_jar})
 
 
+@app.route('/listdir', methods = ['POST'])
+def list_dir():
+    if not request.json:
+        about(400)
+    if not 'path' in request.json:
+        return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.PATH_NOT_FOUND})
+    path = request.json['path']
+    if not isabs(path):
+        return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.PATH_IS_NOT_A_FOLDER})
+    content = {}
+    try:
+        for f in listdir(path):
+            full_path = join(path, f)
+            if isdir(full_path):
+                content[f] = 'folder'
+            elif isfile(full_path):
+                content[f] = 'file'
+            # elif islink(full_path):
+            #     content[f] = 'link'
+            else:
+                content[f] = 'other'
+    except OSError:
+        return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.COULD_NOT_LIST_FOLDER_CONTENT})
+    return jsonify(content)
+
+
 @app.route('/setJar', methods = ['POST'])
 def set_jar():
     if not request.json:
@@ -184,6 +213,8 @@ def get_status():
             resp = {'status': STATUS.RUNNING}
         elif returncode == 0:
             resp = {'status': STATUS.DONE}
+        else:
+            resp = {'status': returncode}
     except AttributeError:
         resp = {'status': STATUS.NOT_RUNNING}
     return jsonify(resp)
@@ -228,9 +259,11 @@ def start_process():
 @app.route('/terminate', methods = ['GET'])
 def terminate_process():
     error_json = {'status': STATUS.ERROR, 'message': 'The process could not be terminated!'}
+    global process
     if not process == None:
         process.terminate()
         returncode = process.poll()
+        process = None
         if returncode == None:
             return jsonify({'status': STATUS.TERMINATED})
         else:
