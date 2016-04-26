@@ -168,3 +168,23 @@ $ curl -H "Content-Type: application/json" -X POST -d '{"path": "/path/to/dbptk-
 ```
 Returns status ok if everything went well.
 
+### GET http://localhost:5000/status
+Returns the status of running processes. Return JSON where "status" is set to one of RUNNING, NOT RUNNING or DONE. If something unexpected happens, it may also 
+return an integer (the return code of the process).
+
+Example
+```
+{
+  "status": "DONE"
+}
+```
+
+### GET http://localhost:5000/terminate
+Extracting data from a large database may be time consuming. The user may wish to abort such a process, which can be accomplished by making a call to 
+the URL above. If the process is terminated successfully, the following JSON is returned:
+```
+{
+  "status": "TERMINATED"
+}
+```
+
