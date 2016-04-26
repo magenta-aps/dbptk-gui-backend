@@ -59,7 +59,7 @@ Example
 ```
 $  curl http://localhost:5000/getJar
 {
-  "path": null
+  "path": "/path/to/db-preservation-toolkit/dbptk-core/target/dbptk-app-2.0.0-rc3.2.5.jar"
 }
 ```
 
@@ -69,7 +69,7 @@ has finished. The "level" can be one of INFO, WARN, ERROR and DEBUG.
 
 Example
 ```
-$ curl http://localhost/getLog
+$ curl http://localhost:5000/getLog
 {
   "log": [
     {
