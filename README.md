@@ -187,4 +187,3 @@ the URL above. If the process is terminated successfully, the following JSON is 
   "status": "TERMINATED"
 }
 ```
-
