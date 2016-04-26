@@ -154,7 +154,7 @@ where `request.json` is the file contained in this project. The server will resp
 To see all possible flags to set in the JSON, call
 ```
 $ java -jar /path/to/dbptk-app-<VERSION>.jar
-``
+```
 
 ### POST http://localhost:5000/setJar
 Sets the path to the DBPTK jar file. Consumes JSON containing a "path".
