@@ -52,11 +52,10 @@ The server should now be running on your local machine listening on port 5000.
 
 The following resources are available:
 
-## GET http://localhost:5000/getJar
-
+### GET http://localhost:5000/getJar
 Return the path to to DBPTK jar file.
 
-### Example
+Example
 
 ```
 $  curl http://localhost:5000/getJar
@@ -64,4 +63,6 @@ $  curl http://localhost:5000/getJar
   "path": null
 }
 ```
+
+
 
