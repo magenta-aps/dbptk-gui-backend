@@ -35,6 +35,7 @@ You can now install the needed modules, [Flask](http://flask.pocoo.org) and Enum
 ```
 $ pip install flask
 $ pip install flask-cors
+```
 
 # Running the server
 
