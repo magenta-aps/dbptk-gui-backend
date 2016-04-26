@@ -3,7 +3,7 @@
 		"name": "mysql",
 		"parameters": {
 			"import-hostname": "localhost",
-			"import-database": "sakila",
+			"import-database": "world",
 			"import-username": "andreas",
 			"import-password": "hemmeligt"
 		}

@@ -148,18 +148,44 @@ class JSONChecker(object):
         else:
             raise 'module_type must be either "import" or "export"'
 
+
 app = Flask(__name__)
 CORS(app)
 
 status = STATUS.NOT_RUNNING
-# path_to_jar = None
-path_to_jar = '/home/andreas/eark/db-preservation-toolkit/dbptk-core/target/dbptk-app-2.0.0-rc3.2.5.jar'
+path_to_jar = None
 process = None
 
 
 @app.route('/getJar', methods = ['GET'])
 def get_jar():
     return jsonify({'path': path_to_jar})
+
+
+@app.route('/getLog', methods = ['GET'])
+def get_log():
+    """Must not be called until process has finished"""
+    global process
+    if process == None:
+        return jsonify({'status': STATUS.ERROR, 'message': 'No process'})
+    lines = process.stdout.readlines()
+    process.stdout.close()
+    process = None
+    
+    def add_log_entry(log_level, line, log_entries):
+        if line[:len(log_level)] == log_level:
+            time, message = line.split(']')
+            time = time.split('[')[1]
+            log_entries.append({'level': log_level, 'timestamp': time, 'message': message.strip()})
+    
+    log_entries = []
+    for l in lines:
+        add_log_entry('INFO', l, log_entries)
+        add_log_entry('WARN', l, log_entries)
+        add_log_entry('DEBUG', l, log_entries)
+        add_log_entry('ERROR', l, log_entries)
+
+    return jsonify({'log': log_entries})
 
 
 @app.route('/listdir', methods = ['POST'])
@@ -188,6 +214,40 @@ def list_dir():
     return jsonify(content)
 
 
+@app.route('/run', methods=['POST'])
+def start_process():
+    if not request.json:
+        abort(400)
+    
+    if path_to_jar == None:
+        return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.PATH_TO_JAR_NOT_SET})
+    
+    # Check json
+    check = JSONChecker.checkJson(request.json)
+    if not check['status'] == STATUS.OK:
+        return jsonify(check)
+
+    def add_parameter_args(args, module_type, module):
+        args.append(module['name'])
+        for p in module['parameters']:
+            parameter_str = '--' + p
+            if JSONChecker.is_parameter_value_mandatory(module_type, module['name'], p):
+                parameter_str += '=' + module['parameters'][p]
+            args.append(parameter_str)
+            
+    import_module = request.json["import-module"]
+    export_module = request.json["export-module"]
+    args = [u'java', u'-jar', path_to_jar, u'-i']
+    add_parameter_args(args, 'import', import_module)
+    args.append('-e')   
+    add_parameter_args(args, 'export', export_module)
+    
+    global process
+    process = Popen(args, stdout=PIPE)
+        
+    return jsonify({'status': STATUS.RUNNING})
+
+    
 @app.route('/setJar', methods = ['POST'])
 def set_jar():
     if not request.json:
@@ -220,42 +280,6 @@ def get_status():
     return jsonify(resp)
 
 
-@app.route('/run', methods=['POST'])
-def start_process():
-    if not request.json:
-        abort(400)
-    
-    if path_to_jar == None:
-        return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.PATH_TO_JAR_NOT_SET})
-    
-    # Check json
-    check = JSONChecker.checkJson(request.json)
-    if not check['status'] == STATUS.OK:
-        return jsonify(check)
-
-    def add_parameter_args(args, module_type, module):
-        args.append(module['name'])
-        for p in module['parameters']:
-            parameter_str = '--' + p
-            if JSONChecker.is_parameter_value_mandatory(module_type, module['name'], p):
-                parameter_str += '=' + module['parameters'][p]
-            args.append(parameter_str)
-            
-    import_module = request.json["import-module"]
-    export_module = request.json["export-module"]
-    args = [u'java', u'-jar', path_to_jar, u'-i']
-    add_parameter_args(args, 'import', import_module)
-    args.append('-e')   
-    add_parameter_args(args, 'export', export_module)
-    
-    # args = ['sleep', '5']
-    
-    global process
-    process = Popen(args, stdout=PIPE)
-        
-    return jsonify({'status': STATUS.RUNNING})
-
-    
 @app.route('/terminate', methods = ['GET'])
 def terminate_process():
     error_json = {'status': STATUS.ERROR, 'message': 'The process could not be terminated!'}
@@ -270,6 +294,7 @@ def terminate_process():
             return jsonify(error_json)
     else:
         return jsonify(error_json)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
