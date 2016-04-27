@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="shortcut icon" href="favicon.ico" />	 -->
-    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="ui/css/wizard.css">
@@ -63,7 +62,7 @@
               <option>SIARD-2</option>
               <option>SIARD-DK</option>
             </select>
-            <small class="text-muted">DBMS is your database management system. If you can't find yours here, <a href="#">contact us</a>.</small>
+            <small class="text-muted">DBMS is your database management system. If you can't find yours here, <a class="coming-soon" href="#">contact us</a>.</small>
           </fieldset>
           <fieldset class="form-group">
             <label for="hostname">Hostname</label>
@@ -89,7 +88,7 @@
         <div class="navigation-wrap">
           <a href="index.html" class="btn btn-default">Cancel</a>
           <a data-toggle="pill" href="#select-data" class="btn btn-default">Connect &amp; Next &gt;</a>
-          <p>If you can't connect, check out the <a href="#">trouble shooting</a> section for your DBMS.</p>
+          <p>If you can't connect, check out the <a class="coming-soon" href="#">trouble shooting</a> section for your DBMS.</p>
         </div>
       </div>
 			
@@ -236,7 +235,7 @@
               <option>4</option>
               <option>5</option>
             </select>
-            <small class="text-muted">SIARD version is the type of SIARD you want to output, check details <a href="#">here</a>.</small>
+            <small class="text-muted">SIARD version is the type of SIARD you want to output, check details <a class="coming-soon" href="#">here</a>.</small>
           </fieldset>
           <fieldset class="form-group">
             <label for="expansion">Expansion</label>
@@ -262,9 +261,9 @@
         <h4>4. Import data</h4>
         <p>Monitor and manage the import data process.</p>
         <div>
-          <h5>Overall status: <span>30%</span></h5>
+          <h5>Overall status: <span class="loading-progress-status"></span></h5>
           <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
               <!-- <span class="sr-only">30% Complete</span> -->
             </div>
           </div>
@@ -321,6 +320,6 @@
 		
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="ui/js/script.js"></script>
   </body>
 </html>
