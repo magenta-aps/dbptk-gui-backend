@@ -16,8 +16,7 @@ function toggleNav(that) {
 	pill.addClass("active");
 }
 
-
-// TODO: deactivate not reached steps in nav
+$("header li.active").nextAll().css("pointer-events", "none");
 
 $(".coming-soon").click(function(){
 	alert("Coming soon");
@@ -69,14 +68,3 @@ function loadProgress() {
 	}
 };
 var intervalLoading = setInterval(loadProgress, 1000);
-
-
-// TODO later: (when database actually connected)
-// - "Connect & Next" should only forward when connection worked 
-// - animate loading bar according to process
-// - Generate content dynamically
-// - Make tables sortable
-
-// Others:
-// - Figure out what "Browse" does
-// - Figure out if dowload destination folder somehow choosable
