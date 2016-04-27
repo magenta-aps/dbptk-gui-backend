@@ -87,7 +87,7 @@
         </form>
         <div class="navigation-wrap">
           <a href="index.html" class="btn btn-default">Cancel</a>
-          <a data-toggle="pill" href="#select-data" class="btn btn-default">Connect &amp; Next &gt;</a>
+          <a data-toggle="pill" href="#select-data" class="btn btn-default next">Connect &amp; Next &gt;</a>
           <p>If you can't connect, check out the <a class="coming-soon" href="#">trouble shooting</a> section for your DBMS.</p>
         </div>
       </div>
@@ -102,12 +102,12 @@
           </p>
         </div>
         <div class="selector-controls">
-          <button class="btn btn-default">Select All</button>
-          <button class="btn btn-default">Select None</button>
-          <button class="btn btn-default">Invert selection</button>
+          <button id="select-all" class="btn btn-default">Select All</button>
+          <button id="select-none" class="btn btn-default">Select None</button>
+          <button id="invert-selection" class="btn btn-default">Invert selection</button>
           <div class="navigation-wrap right">
-            <a data-toggle="pill" href="#connect" class="btn btn-default">&lt; Back</a>
-            <a data-toggle="pill" href="#select-output" class="btn btn-default">Next &gt;</a>
+            <a data-toggle="pill" href="#connect" class="btn btn-default back">&lt; Back</a>
+            <a data-toggle="pill" href="#select-output" class="btn btn-default next">Next &gt;</a>
           </div>
         </div>
         <hr>
@@ -116,7 +116,7 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th><input type="checkbox"></td>
+                <th><input class="table-select-toggle" type="checkbox"></td>
                 <th># <i class="fa fa-caret-down"></i></td>
                 <th>Name <i class="fa fa-sort"></i></td>
                 <th>Type <i class="fa fa-sort"></i></td>
@@ -170,7 +170,7 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th><input type="checkbox" checked></td>
+                <th><input class="table-select-toggle" type="checkbox" checked></td>
                 <th># <i class="fa fa-caret-down"></i></td>
                 <th>Name <i class="fa fa-sort"></i></td>
                 <th>Type <i class="fa fa-sort"></i></td>
@@ -216,8 +216,8 @@
           <button class="btn btn-default">Select None</button>
           <button class="btn btn-default">Invert selection</button>
           <div class="navigation-wrap right">
-            <a data-toggle="pill" href="#connect" class="btn btn-default">&lt; Back</a>
-            <a data-toggle="pill" href="#select-output" class="btn btn-default">Next &gt;</a>
+            <a data-toggle="pill" href="#connect" class="btn btn-default back">&lt; Back</a>
+            <a data-toggle="pill" href="#select-output" class="btn btn-default next">Next &gt;</a>
           </div>
         </div>
       </div>
@@ -252,8 +252,8 @@
           </fieldset>
         </form>
         <div class="navigation-wrap">
-          <a data-toggle="pill" href="#select-data" class="btn btn-default">&lt; Back</a>
-          <a data-toggle="pill" href="#import" class="btn btn-default">Next &gt;</a>
+          <a data-toggle="pill" href="#select-data" class="btn btn-default back">&lt; Back</a>
+          <a data-toggle="pill" href="#import" class="btn btn-default next">Next &gt;</a>
         </div>
       </div>
 			
@@ -287,8 +287,8 @@
           </div>
         </div>
         <div class="navigation-wrap">
-          <a data-toggle="pill" href="#select-output" class="btn btn-default">&lt; Back</a>
-          <a data-toggle="pill" href="#metadata" class="btn btn-default">Next &gt;</a>
+          <a data-toggle="pill" href="#select-output" class="btn btn-default back">&lt; Back</a>
+          <a data-toggle="pill" href="#metadata" class="btn btn-default next">Next &gt;</a>
         </div>
       </div>
 			
@@ -308,7 +308,7 @@
             </fieldset>
           </form>
           <div class="navigation-wrap right">
-            <a data-toggle="pill" href="#import" class="btn btn-default">&lt; Back</a>
+            <a data-toggle="pill" href="#import" class="btn btn-default back">&lt; Back</a>
             <a href="index.html" class="btn btn-default">Save and close</a>
           </div>
       </div>
