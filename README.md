@@ -5,7 +5,7 @@ The backend runs as a RESTful service accepting calls to interact with the [DBPT
 # Installation
 
 All you need to do to run the backend is to download and run the file rest.py, i.e. everything is collected in a single file. 
-There are a few prerequests though (these instructions are for Ubuntu, but installation on a Mac can be done in a similar way):
+There are a few prerequests though. The following instructions are for Ubuntu and OS X (El Capitan):
 
 ## Prerequisites
 
@@ -17,24 +17,39 @@ Download and install as described here [DBPTK](https://github.com/keeps/db-prese
 
 ### Python
 
-The code is written in [Python 2.7](https://www.python.org/). This can be installed on an Ubuntu system by using `apt-get` (as root):
+The code is written in [Python 2.7](https://www.python.org/).
+
+**Ubuntu:**
+Python can be installed on an Ubuntu system by using `apt-get` (as root):
 ```
 $ apt-get install python
 ```
 
+**OS X:**
+Python 2.7 comes preinstalled with OS X El Capitan.
+
 ### Python modules
 
 The code makes use of a few Python modules so these also have to be installed. The easiest thing to do is probably to use `pip` to 
-install these, but `apt-get` is also an option. Install `pip`:
+install these (but `apt-get` is also an option on Ubuntu Linux). Install `pip`:
 
+**Ubuntu:**
 ```
 $ apt-get install python-pip
 ```
 
-You can now install the needed modules, [Flask](http://flask.pocoo.org) and Enum:
+**OS X:**
 ```
-$ pip install flask
-$ pip install flask-cors
+$ easy_install pip
+```
+
+You can now install the needed modules, [Flask](http://flask.pocoo.org) and Enum:
+
+**Ubuntu and OS X:**
+```
+$ (sudo) pip install flask
+$ (sudo) pip install flask-cors
+$ (sudo) pip install enum
 ```
 
 # Running the server
@@ -42,6 +57,7 @@ $ pip install flask-cors
 All you have to do to run the server is to run the file `rest.py` with Python. Run the following command from the folder where 
 `rest.py` is located:
 
+**Ubuntu and OS X:**
 ```
 $ python rest.py
 ```
