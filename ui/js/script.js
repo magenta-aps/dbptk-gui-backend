@@ -1,8 +1,8 @@
+// Navigation from tab to tab:
 $(".next").click(function(){
 	var that = this;
 	toggleNav(that);
 });
-
 $(".back").click(function(){
 	var that = this;
 	toggleNav(that);
@@ -19,11 +19,7 @@ function toggleNav(that) {
 // Not quite right yet o.O
 // $("header li.active").nextAll().css("pointer-events", "none");
 
-$(".coming-soon").click(function(){
-	alert("Coming soon");
-});
-
-// TODO: Checkbox stuff: 
+// Checkbox stuff: 
 // - select all
 $('#select-all').click(function() {   
 	$(':checkbox').each(function() {
@@ -54,12 +50,11 @@ $(".table-select-toggle").click(function(){
 	// TODO uncheck first child if 1 sibling unchecked	
 });
 
-
 $(':checkbox').each(function() {
 	this.checked = true;
 });
 
-
+// Progress bar loading
 var loadingProgress = 0;
 function loadProgress() {
 	if (loadingProgress < 100) {
@@ -78,4 +73,12 @@ $(document).click(function(){
 	if ($("li.import").hasClass("active")) {
 		var intervalLoading = setInterval(loadProgress, 60);
 	}
+});
+
+
+
+
+// 
+$(".coming-soon").click(function(){
+	alert("Coming soon");
 });
