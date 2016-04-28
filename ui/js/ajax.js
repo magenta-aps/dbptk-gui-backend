@@ -8,8 +8,7 @@ $(".database-connect").click(function() {
 	
 	$.ajax({
 		type: "POST",
-	  url: "http://localhost:5000/run",
-		
+		url: "http://localhost:5000/run",
 		data: {
 			"import-module": {
 				"name": "mysql",

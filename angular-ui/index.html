@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Database Preservation Toolkit</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-amber.min.css">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body ng-app="dbptkApp" ng-controller="DbptkCtrl" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row" style="padding-left: 2rem;">
+                <h1 class="mdl-layout-title">Database preservation Toolkit</h1>
+            </div>
+        </header>
+        
+        <main class="mdl-layout__content">
+            
+            <form>
+                
+                <section class="page-content" ng-show="states.home">
+                   
+                    <button
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                        ng-click="states.home = false; states.connect = true">
+                        <i class="material-icons">input</i>
+                        Export live database to SIARD
+                    </button>
+                    <p class="input-help">
+                        Connect to live DBMS like Oracle, MySQL, PostgrSQL, SQL Server, and others, and export all or part of the content into the database preservation format SIARD.
+                    <p>
+                    
+                    <button class="mdl-button mdl-js-button mdl-button--raised" disabled>
+                        <i class="material-icons">input</i>
+                        Import SIARD to a live database
+                    </button>
+                    <p class="input-help">
+                        Import a database preserved on the SIARD format into a live DBMS like Oracle, MySQL, PostgreSQL, SQL Server, and others.
+                    <p>
+                    
+                </section>
+                
+                <section class="page-content" ng-show="states.connect">
+                    
+                    <fieldset>
+                        
+                        <h2 class="legend">1. Connect to database</h2>
+                        <p>Select your database management system (DBMS) and configure the connection.</p>
+                        
+                        <label for="imp-module">DBMS</label>
+                        <select id="imp-module" ng-model="model.importChoice">
+                            <option value="jdbc">JDBC</option>
+                            <option value="microsoft-access">Microsoft Access</option>
+                            <option value="microsoft-sql-server">Microsoft SQL Server</option>
+                            <option value="mysql">MySQL</option>
+                            <option value="oracle">Oracle</option>
+                            <option value="postgresql">PostgreSQL</option>
+                            <option value="siard-1">SIARD-1</option>
+                            <option value="siard-2">SIARD-2</option>
+                            <option value="siard-dk">SIARD-DK</option>
+                        </select>
+                        <p class="input-help">DBMS is your database management system.</p>
+                        
+                        <div ng-show="model.importChoice === 'jdbc'">
+                            <label for="jdbc-import-driver">* Driver</label>
+                            <input id="jdbc-import-driver" ng-model="model.importModules['jdbc']['import-driver']" type="text">
+                            <p class="input-help">Name of the the JDBC driver class. For more info about this refer to the website or the README file</p>
+                            <label for="jdbc-import-connection">* Connection</label>
+                            <input id="jdbc-import-connection" ng-model="model.importModules['jdbc']['import-connection']" type="text">
+                            <p class="input-help">Connection URL to use in the connection</p>
+                        </div>
+                        
+                        <div ng-show="model.importChoice === 'microsoft-access'">
+                            <label for="microsoft-access-import-file">* Driver</label>
+                            <input id="microsoft-access-import-file" ng-model="model.importModules['microsoft-access']['import-file']" type="text">
+                            <p class="input-help">Path to the Microsoft Access file</p>
+                        </div>
+                        
+                        <div ng-show="model.importChoice === 'microsoft-sql-server'">
+                            <label for="microsoft-sql-server-import-server-name">* Server name</label>
+                            <input id="microsoft-sql-server-import-server-name" ng-model="model.importModules['microsoft-sql-server']['import-server-name']" type="text">
+                            <p class="input-help">Name (host name) of the server</p>
+                            <label for="microsoft-sql-server-import-database">* Database</label>
+                            <input id="microsoft-sql-server-import-database" ng-model="model.importModules['microsoft-sql-server']['import-database']" type="text">
+                            <p class="input-help">Name of the database we'll be accessing</p>
+                            <label for="microsoft-sql-server-import-username">* Username</label>
+                            <input id="microsoft-sql-server-import-username" ng-model="model.importModules['microsoft-sql-server']['import-username']" type="text">
+                            <p class="input-help">Name of the user to use in the connection</p>
+                            <label for="microsoft-sql-server-import-password">* Password</label>
+                            <input id="microsoft-sql-server-import-password" ng-model="model.importModules['microsoft-sql-server']['import-password']" type="password">
+                            <p class="input-help">Password of the user to use in the connection</p>
+                            <input id="microsoft-sql-server-import-use-integrated-login" ng-model="model.importModules['microsoft-sql-server']['import-use-integrated-login']" type="checkbox">
+                            <label for="microsoft-sql-server-import-use-integrated-login">Use integrated login</label>
+                            <p class="input-help">Use windows login. By default the SQL Server login is used</p>
+                            <input id="microsoft-sql-server-import-disable-encryption" ng-model="model.importModules['microsoft-sql-server']['import-disable-encryption']" type="checkbox">
+                            <label for="microsoft-sql-server-import-disable-encryption">Disable encryption</label>
+                            <p class="input-help">Use to turn off encryption in the connection</p>
+                            <label for="microsoft-sql-server-import-instance-name">Instance name</label>
+                            <input id="microsoft-sql-server-import-instance-name" ng-model="model.importModules['microsoft-sql-server']['import-instance-name']" type="text">
+                            <p class="input-help">Name of the instance</p>
+                            <label for="microsoft-sql-server-import-port-number">Port number</label>
+                            <input id="microsoft-sql-server-import-port-number" ng-model="model.importModules['microsoft-sql-server']['import-port-number']" type="text">
+                            <p class="input-help">Port number of the server instance, default is 1433</p>
+                        </div>
+                        
+                        <div ng-show="model.importChoice === 'mysql'">
+                            <label for="mysql-import-hostname">* Host name</label>
+                            <input id="mysql-import-hostname" ng-model="model.importModules['mysql']['import-hostname']" type="text">
+                            <p class="input-help">Hostname of the MySQL server</p>
+                            <label for="mysql-import-database">* Database</label>
+                            <input id="mysql-import-database" ng-model="model.importModules['mysql']['import-database']" type="text">
+                            <p class="input-help">Name of the MySQL database</p>
+                            <label for="mysql-import-username">* Username</label>
+                            <input id="mysql-import-username" ng-model="model.importModules['mysql']['import-username']" type="text">
+                            <p class="input-help">Name of the user to use in connection</p>
+                            <label for="mysql-import-password">* Password</label>
+                            <input id="mysql-import-password" ng-model="model.importModules['mysql']['import-password']" type="password">
+                            <p class="input-help">Password of the user to use in connection</p>
+                            <label for="mysql-import-port-number">Port number</label>
+                            <input id="mysql-import-port-number" ng-model="model.importModules['mysql']['import-port-number']" type="text">
+                            <p class="input-help">Port that the MySQL server is listening</p>
+                        </div>
+                        
+                        <div ng-show="model.importChoice === 'oracle'">
+                            <label for="oracle-import-server-name">* Server name</label>
+                            <input id="oracle-import-server-name" ng-model="model.importModules['oracle']['import-server-name']" type="text">
+                            <p class="input-help">Name (or IP address) of the Oracle server</p>
+                            <label for="oracle-import-database">* Database</label>
+                            <input id="oracle-import-database" ng-model="model.importModules['oracle']['import-database']" type="text">
+                            <p class="input-help">Name of the database to use in the connection</p>
+                            <label for="oracle-import-username">* Username</label>
+                            <input id="oracle-import-username" ng-model="model.importModules['oracle']['import-username']" type="text">
+                            <p class="input-help">Name of the user to use in connection</p>
+                            <label for="oracle-import-password">* Password</label>
+                            <input id="oracle-import-password" ng-model="model.importModules['oracle']['import-password']" type="password">
+                            <p class="input-help">Password of the user to use in connection</p>
+                            <label for="oracle-import-port-number">* Port number</label>
+                            <input id="oracle-import-port-number" ng-model="model.importModules['oracle']['import-port-number']" type="text">
+                            <p class="input-help">Port that the Oracle server is listening to</p>
+                            <input id="oracle-import-port-accept-license" ng-model="model.importModules['oracle']['import-accept-license']" type="checkbox">
+                            <label for="oracle-import-port-accept-license">Accept licence</label>
+                            <p class="input-help">Declare that you accept OTN License Agreement, which is necessary to use this module</p>
+                        </div>
+        
+                        <div ng-show="model.importChoice === 'postgresql'">
+                            <label for="postgresql-import-hostname">* Hostname</label>
+                            <input id="postgresql-import-hostname" ng-model="model.importModules['postgresql']['import-hostname']" type="text">
+                            <p class="input-help">Name of the PostgreSQL server host (e.g. localhost)</p>
+                            <label for="postgresql-import-database">* Database</label>
+                            <input id="postgresql-import-database" ng-model="model.importModules['postgresql']['import-database']" type="text">
+                            <p class="input-help">Name of the database to connect to</p>
+                            <label for="postgresql-import-username">* Username</label>
+                            <input id="postgresql-import-username" ng-model="model.importModules['postgresql']['import-username']" type="text">
+                            <p class="input-help">Name of the user to use in connection</p>
+                            <label for="postgresql-import-password">* Password</label>
+                            <input id="postgresql-import-password" ng-model="model.importModules['postgresql']['import-password']" type="password">
+                            <p class="input-help">Password of the user to use in connection</p>
+                            <input id="postgresql-import-disable-encryption" ng-model="model.importModules['postgresql']['import-disable-encryption']" type="checkbox">
+                            <label for="postgresql-import-disable-encryption">Disable encryption</label>
+                            <p class="input-help">Use to turn off encryption in the connection</p>
+                            <label for="postgresql-import-port-number">Port number</label>
+                            <input id="postgresql-import-port-number" ng-model="model.importModules['postgresql']['import-port-number']" type="text">
+                            <p class="input-help">Port of where the PostgreSQL server is listening, default is 5432</p>
+                        </div>
+                        
+                        <div ng-show="model.importChoice === 'siard-1'">
+                            <label for="siard-1-import-file">* File</label>
+                            <input id="siard-1-import-file" ng-model="model.importModules['siard-1']['import-file']" type="text">
+                            <p class="input-help">Path to SIARD-1 archive file</p>
+                        </div>
+                        
+                        <div ng-show="model.importChoice === 'siard-2'">
+                            <label for="siard-2-import-file">* File</label>
+                            <input id="siard-2-import-file" ng-model="model.importModules['siard-2']['import-file']" type="text">
+                            <p class="input-help">Path to SIARD-2 archive file</p>
+                        </div>
+                        
+                        <div ng-show="model.importChoice === 'siard-dk'">
+                            <label for="siard-dk-import-folder">* Folder</label>
+                            <input id="siard-dk-import-folder" ng-model="model.importModules['siard-dk']['import-folder']" type="text">
+                            <p class="input-help">Path to (the first) SIARDDK archive folder. Archive folder name must match the expression AVID.[A-ZÆØÅ]{2,4}.[1-9][0-9]*.1 Any additional parts of the archive (eg. with suffixes .2 .3 etc) referenced in the tableIndex.xml will also be processed.</p>
+                            <label for="siard-dk-import-as-schema">* As schema</label>
+                            <input id="siard-dk-import-as-schema" ng-model="model.importModules['siard-dk']['import-as-schema']" type="text">
+                            <p class="input-help">Name of the database schema to use when importing the SIARDDK archive. Suggested values: PostgreSQL:'public', MySQL:'&lt;name of database>', MSSQL:'dbo'</p>
+                        </div>
+                        
+                        <button
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                            ng-click="states.connect = false; states.output = true">
+                            Next
+                        </button>
+                        
+                    </fieldset>
+                    
+                </section>
+                
+                <section class="page-content" ng-show="states.output">
+                    
+                    <fieldset>
+                        
+                        <h2 class="legend">2. Select SIARD output</h2>
+                        <p>Select the SIARD details and output location.</p>
+                        
+                        <label for="imp-module">SIARD version</label>
+                        <select id="imp-module" ng-model="model.exportChoice">
+                            <option value="jdbc">JDBC</option>
+                            <option value="list-tables">List tables</option>
+                            <option value="microsoft-sql-server">Microsoft SQL Server</option>
+                            <option value="mysql">MySQL</option>
+                            <option value="oracle">Oracle</option>
+                            <option value="postgresql">PostgreSQL</option>
+                            <option value="siard-1">SIARD-1</option>
+                            <option value="siard-2">SIARD-2</option>
+                            <option value="siard-dk">SIARD-DK</option>
+                        </select>
+                        <p class="input-help">SIARD version is the type of SIARD you want to output.</p>
+                        
+                        <div ng-show="model.exportChoice === 'jdbc'">
+                            <label for="jdbc-export-driver">* Driver</label>
+                            <input id="jdbc-export-driver" ng-model="model.exportModules['jdbc']['export-driver']" type="text">
+                            <p class="input-help">Name of the the JDBC driver class. For more info about this refer to the website or the README file</p>
+                            <label for="jdbc-export-connection">* Connection</label>
+                            <input id="jdbc-export-connection" ng-model="model.exportModules['jdbc']['export-connection']" type="text">
+                            <p class="input-help">Connection url to use in the connection</p>
+                        </div>
+                        
+                        <div ng-show="model.exportChoice === 'list-tables'">
+                            <label for="list-tables-export-file">* File</label>
+                            <input id="list-tables-export-file" ng-model="model.exportModules['list-tables']['export-file']" type="text">
+                            <p class="input-help">Path to output file that can be read by SIARD2 export module</p>
+                        </div>
+                        
+                        <div ng-show="model.exportChoice === 'microsoft-sql-server'">
+                            <label for="microsoft-sql-server-export-server-name">* Server name</label>
+                            <input id="microsoft-sql-server-export-server-name" ng-model="model.exportModules['microsoft-sql-server']['export-server-name']" type="text">
+                            <p class="input-help">Name (host name) of the server</p>
+                            <label for="microsoft-sql-server-export-database">* Database</label>
+                            <input id="microsoft-sql-server-export-database" ng-model="model.exportModules['microsoft-sql-server']['export-database']" type="text">
+                            <p class="input-help">Name of the database we'll be accessing</p>
+                            <label for="microsoft-sql-server-export-username">* Username</label>
+                            <input id="microsoft-sql-server-export-username" ng-model="model.exportModules['microsoft-sql-server']['export-username']" type="text">
+                            <p class="input-help">Name of the user to use in the connection</p>
+                            <label for="microsoft-sql-server-export-password">* Password</label>
+                            <input id="microsoft-sql-server-export-password" ng-model="model.exportModules['microsoft-sql-server']['export-password']" type="password">
+                            <p class="input-help">Password of the user to use in the connection</p>
+                            <input id="microsoft-sql-server-export-use-integrated-login" ng-model="model.exportModules['microsoft-sql-server']['export-use-integrated-login']" type="checkbox">
+                            <label for="microsoft-sql-server-export-use-integrated-login">Use integrated login</label>
+                            <p class="input-help">Use windows login. By default the SQL Server login is used</p>
+                            <input id="microsoft-sql-server-export-disable-encryption" ng-model="model.exportModules['microsoft-sql-server']['export-disable-encryption']" type="checkbox">
+                            <label for="microsoft-sql-server-export-disable-encryption">Disable encryption</label>
+                            <p class="input-help">Use to turn off encryption in the connection</p>
+                            <label for="microsoft-sql-server-export-instance-name">Instance name</label>
+                            <input id="microsoft-sql-server-export-instance-name" ng-model="model.exportModules['microsoft-sql-server']['export-instance-name']" type="text">
+                            <p class="input-help">Name of the instance</p>
+                            <label for="microsoft-sql-server-export-port-number">Port number</label>
+                            <input id="microsoft-sql-server-export-port-number" ng-model="model.exportModules['microsoft-sql-server']['export-port-number']" type="text">
+                            <p class="input-help">Port number of the server instance, default is 1433</p>
+                        </div>
+                        
+                        <div ng-show="model.exportChoice === 'mysql'">
+                            <label for="mysql-export-hostname">* Host name</label>
+                            <input id="mysql-export-hostname" ng-model="model.exportModules['mysql']['export-hostname']" type="text">
+                            <p class="input-help">Hostname of the MySQL server</p>
+                            <label for="mysql-export-database">* Database</label>
+                            <input id="mysql-export-database" ng-model="model.exportModules['mysql']['export-database']" type="text">
+                            <p class="input-help">Name of the MySQL database</p>
+                            <label for="mysql-export-username">* Username</label>
+                            <input id="mysql-export-username" ng-model="model.exportModules['mysql']['export-username']" type="text">
+                            <p class="input-help">Name of the user to use in connection</p>
+                            <label for="mysql-export-password">* Password</label>
+                            <input id="mysql-export-password" ng-model="model.exportModules['mysql']['export-password']" type="password">
+                            <p class="input-help">Password of the user to use in connection</p>
+                            <label for="mysql-export-port-number">Port number</label>
+                            <input id="mysql-export-port-number" ng-model="model.exportModules['mysql']['export-port-number']" type="text">
+                            <p class="input-help">Port that the MySQL server is listening to</p>
+                        </div>
+                        
+                        <div ng-show="model.exportChoice === 'oracle'">
+                            <label for="oracle-export-server-name">* Server name</label>
+                            <input id="oracle-export-server-name" ng-model="model.exportModules['oracle']['export-server-name']" type="text">
+                            <p class="input-help">Name (or IP address) of the Oracle server</p>
+                            <label for="oracle-export-database">* Database</label>
+                            <input id="oracle-export-database" ng-model="model.exportModules['oracle']['export-database']" type="text">
+                            <p class="input-help">Name of the database to use in the connection</p>
+                            <label for="oracle-export-username">* Username</label>
+                            <input id="oracle-export-username" ng-model="model.exportModules['oracle']['export-username']" type="text">
+                            <p class="input-help">Name of the user to use in connection</p>
+                            <label for="oracle-export-password">* Password</label>
+                            <input id="oracle-export-password" ng-model="model.exportModules['oracle']['export-password']" type="password">
+                            <p class="input-help">Password of the user to use in connection</p>
+                            <label for="oracle-export-port-number">* Port number</label>
+                            <input id="oracle-export-port-number" ng-model="model.exportModules['oracle']['export-port-number']" type="text">
+                            <p class="input-help">Port that the Oracle server is listening to</p>
+                            <input id="oracle-export-port-accept-license" ng-model="model.exportModules['oracle']['export-accept-license']" type="checkbox">
+                            <label for="oracle-export-port-accept-license">Accept licence</label>
+                            <p class="input-help">Declare that you accept OTN License Agreement, which is necessary to use this module</p>
+                            <label for="oracle-export-source-schema">Source schema</label>
+                            <input id="oracle-export-source-schema" ng-model="model.exportModules['oracle']['export-source-schema']" type="text">
+                            <p class="input-help">Name of the source schema to export to the Oracle database. A schema with this name must exist in the Oracle database and it must be the default tablespace for the specified user. If omitted, the name of the first schema will be used</p>
+                        </div>
+        
+                        <div ng-show="model.exportChoice === 'postgresql'">
+                            <label for="postgresql-export-hostname">* Hostname</label>
+                            <input id="postgresql-export-hostname" ng-model="model.exportModules['postgresql']['export-hostname']" type="text">
+                            <p class="input-help">Name of the PostgreSQL server host (e.g. localhost)</p>
+                            <label for="postgresql-export-database">* Database</label>
+                            <input id="postgresql-export-database" ng-model="model.exportModules['postgresql']['export-database']" type="text">
+                            <p class="input-help">Name of the database to connect to</p>
+                            <label for="postgresql-export-username">* Username</label>
+                            <input id="postgresql-export-username" ng-model="model.exportModules['postgresql']['export-username']" type="text">
+                            <p class="input-help">Name of the user to use in connection</p>
+                            <label for="postgresql-export-password">* Password</label>
+                            <input id="postgresql-export-password" ng-model="model.exportModules['postgresql']['export-password']" type="password">
+                            <p class="input-help">Password of the user to use in connection</p>
+                            <input id="postgresql-export-disable-encryption" ng-model="model.exportModules['postgresql']['export-disable-encryption']" type="checkbox">
+                            <label for="postgresql-export-disable-encryption">Disable encryption</label>
+                            <p class="input-help">Use to turn off encryption in the connection</p>
+                            <label for="postgresql-export-port-number">Port number</label>
+                            <input id="postgresql-export-port-number" ng-model="model.exportModules['postgresql']['export-port-number']" type="text">
+                            <p class="input-help">Port of where the PostgreSQL server is listening, default is 5432</p>
+                        </div>
+                        
+                        <div ng-show="model.exportChoice === 'siard-1'">
+                            <label for="siard-1-export-file">* File</label>
+                            <input id="siard-1-export-file" ng-model="model.exportModules['siard-1']['export-file']" type="text">
+                            <p class="input-help">Path to SIARD1 archive file</p>
+                            <input id="siard-1-export-compress" ng-model="model.exportModules['siard-1']['export-compress']" type="checkbox">
+                            <label for="siard-1-export-compress">Compress</label>
+                            <p class="input-help">Use to compress the SIARD1 archive file with deflate method</p>
+                            <input id="siard-1-export-prettyxml" ng-model="model.exportModules['siard-1']['export-prettyXml']" type="checkbox">
+                            <label for="siard-1-export-prettyxml">PrettyXML</label>
+                            <p class="input-help">Write human-readable XML</p>
+                            <label for="siard-1-export-tablefilter">Table filter</label>
+                            <input id="siard-1-export-tablefilter" ng-model="model.exportModules['siard-1']['export-tableFilter']" type="text">
+                            <p class="input-help">Path to file with the list of tables that should be exported</p>
+                        </div>
+                        
+                        <div ng-show="model.exportChoice === 'siard-2'">
+                            <label for="siard-2-export-file">* File</label>
+                            <input id="siard-2-export-file" ng-model="model.exportModules['siard-2']['export-file']" type="text">
+                            <p class="input-help">Path to SIARD2 archive file</p>
+                            <input id="siard-2-export-compress" ng-model="model.exportModules['siard-2']['export-compress']" type="checkbox">
+                            <label for="siard-2-export-compress">Compress</label>
+                            <p class="input-help">Use to compress the SIARD2 archive file with deflate method</p>
+                            <input id="siard-2-export-prettyxml" ng-model="model.exportModules['siard-2']['export-prettyXml']" type="checkbox">
+                            <label for="siard-2-export-prettyxml">PrettyXML</label>
+                            <p class="input-help">Write human-readable XML</p>
+                            <label for="siard-2-export-tablefilter">Table filter</label>
+                            <input id="siard-2-export-tablefilter" ng-model="model.exportModules['siard-2']['export-tableFilter']" type="text">
+                            <p class="input-help">Path to file with the list of tables that should be exported</p>
+                        </div>
+                        
+                        <div ng-show="model.exportChoice === 'siard-dk'">
+                            <label for="siard-dk-export-folder">* Folder</label>
+                            <input id="siard-dk-export-folder" ng-model="model.exportModules['siard-dk']['export-folder']" type="text">
+                            <p class="input-help">Path to SIARDDK archive folder. Archive folder name must match the expression AVID.[A-ZÆØÅ]{2,4}.[1-9][0-9]*.[1-9][0-9]</p>
+                            <label for="siard-dk-export-archiveIndex">Archive index</label>
+                            <input id="siard-dk-export-archiveIndex" ng-model="model.exportModules['siard-dk']['export-archiveIndex']" type="text">
+                            <p class="input-help">Path to archiveIndex.xml input file</p>
+                            <label for="siard-dk-export-contextDocumentationIndex">Context documentation index</label>
+                            <input id="siard-dk-export-contextDocumentationIndex" ng-model="model.exportModules['siard-dk']['export-contextDocumentationIndex']" type="text">
+                            <p class="input-help">Path to contextDocumentationIndex.xml input file</p>
+                            <label for="siard-dk-export-contextDocumentationFolder">Context documentation folder</label>
+                            <input id="siard-dk-export-contextDocumentationFolder" ng-model="model.exportModules['siard-dk']['export-contextDocumentationFolder']" type="text">
+                            <p class="input-help">Path to contextDocumentation folder which should contain the context documentation for the archive</p>
+                        </div>
+                        
+                        <button
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                            ng-click="states.connect = true; states.output = false">
+                            Previous
+                        </button>
+                        
+                        <button
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                            ng-click="states.output = false; states.progress = true; startImport()">
+                            Start importing
+                        </button>
+                        
+                    </fieldset>
+                    
+                </section>
+                
+                <section class="page-content" ng-show="states.progress">
+                    
+                    <h2 class="legend">3. Exporting live datadase to SIARD</h2>
+                    
+                    <button
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                        ng-click="states.progress = false; states.connect = true">
+                        Cancel
+                    </button>
+                    
+                </section>
+                
+            </form>
+            
+        </main>
+        
+        <div id="callData" ng-show="dcOpen">
+            <div>
+            {{ importData }}
+            </div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="displayCallToggle()">Close</button>
+        </div>
+        
+        <footer class="mdl-mini-footer">
+            <div class="mdl-mini-footer__left-section">
+                <p>{{ logger }}</p>
+            </div>
+        </footer>
+        
+        <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="main.js"></script>
+    
+    </body>
+</html>
