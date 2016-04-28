@@ -16,26 +16,28 @@ body {
 
 header {
 	width: 80%;
-	max-width: 910px;
+	max-width: 774px;
 	margin: 0 auto 3rem;
 	
-	@media screen and (max-width: 1133px) {
+	@media screen and (max-width: 964px) {
 		width: 90%;
 	}
-	
-	@media screen and (max-width: 1133px) {
+
+	@media screen and (max-width: 857px) {
 		width: 100%;
 	}
-	
-	@media screen and (max-width: 906px) {
-		-webkit-transform: scale();
-		transform: scale();
+
+	@media screen and (max-width: 771px) {
+		-webkit-transform: scale(.8);
+		transform: scale(.8);
+		
+		width: 110%;
 	}
 }
 
 .main-container {
 	width: 80%;
-	max-width: 910px;
+	max-width: 774px;
 	margin: 0 auto;
 }
 

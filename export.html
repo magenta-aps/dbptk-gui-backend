@@ -19,25 +19,25 @@
           <a data-toggle="pill" href="#connect">1. Connect to database</a>
           <div class="nav-arrow"></div>
         </li>
-        <li>
+        <li class="">
           <div class="nav-wedge"></div>
           <a data-toggle="pill" href="#select-data">2. Select tables and columns</a>
           <div class="nav-arrow"></div>
         </li>
-        <li>
+        <li class="">
           <div class="nav-wedge"></div>
           <a data-toggle="pill" href="#select-output">3. Select SIARD output</a>
           <div class="nav-arrow"></div>
         </li>
-        <li>
+        <li class="import">
           <div class="nav-wedge"></div>
           <a data-toggle="pill" href="#import">4. Import data</a>
-          <div class="nav-arrow"></div>
+          <!-- <div class="nav-arrow"></div> -->
         </li>
-        <li>
+        <!-- <li>
           <div class="nav-wedge"></div>
           <a data-toggle="pill" href="#metadata">5. Metadata</a>
-        </li>
+        </li> -->
       </ul>
     </header>
 		
@@ -75,13 +75,13 @@
             <small class="text-muted">Port is communication endpoint of your DBMS. If you don't know, try the default one.</small>
           </fieldset>
           <fieldset class="form-group">
-            <label for="username">User name</label>
-            <input type="text" class="form-control" id="username">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Username">
             <small class="text-muted">User name is the name of the user that has persmission to access the database.</small>
           </fieldset>
           <fieldset class="form-group">
             <label for="userpasswird">User password</label>
-            <input type="password" class="form-control" id="userpassword">
+            <input type="password" class="form-control" id="userpassword" placeholder="**********">
             <small class="text-muted">User password is the password of the user that has permission to access the database.</small>
           </fieldset>
         </form>
@@ -94,7 +94,7 @@
 			
       <div id="select-data" class="tab-pane fade">
         <h4>2. Select tables and columns</h4>
-        <p>Select the tables and columns you want to export.</p>
+        <p>Select the tables and columns you want to export. All tables are selected by default.</p>
         <div class="summary">
           <h5>Summary</h5>
           <p>There are 2 tables with a total of 7 columns, 10.000 rows.
@@ -246,9 +246,10 @@
             <small class="text-muted">Expansion is the mode you want to output the SIARD.</small>
           </fieldset>
           <fieldset class="form-group">
-            <label for="browse-folder">Folder</label>
-            <input type="file" class="form-control-file" id="browse-folder">
-            <small class="text-muted">E:\>SIARD Output directory\</small>
+            <label for="folder-path">Folder path</label>
+						<input type="text" class="form-control" id="folder-path" placeholder="E:\>SIARD Output directory\">
+            <!-- <input type="file" class="form-control-file" id="browse-folder"> -->
+            <small class="text-muted">Choose download destination (optional)</small>
           </fieldset>
         </form>
         <div class="navigation-wrap">
@@ -267,32 +268,16 @@
               <!-- <span class="sr-only">30% Complete</span> -->
             </div>
           </div>
-          <div class="stats">
-            <ul>
-              <li>Estimated time ahead: About 10 minutes</li>
-              <li>Tables: 1 of 2 (50%)</li>
-              <li>Rows: 3.000 of 10.000 (30%)</li>
-              <li>Current table: Products</li>
-              <li>Rows on current table: 3.000 of 5.000 (60%)</li>
-              <li>Average row throughput: 10.000 rows / second</li>
-            </ul>
-            <ul>
-              <li>SIARD output size: 12 GB</li>
-              <li>Average SIARD output size thoughout: 6 MB/s</li>
-            </ul>
-            <ul>
-              <li>Temporary files: 10.000 files</li>
-              <li>Temporary files size: 5 GB</li>
-            </ul>
-          </div>
+					
+					<p class="progress-feedback"></p>
         </div>
         <div class="navigation-wrap">
           <a data-toggle="pill" href="#select-output" class="btn btn-default back">&lt; Back</a>
-          <a data-toggle="pill" href="#metadata" class="btn btn-default next">Next &gt;</a>
+          <a href="index.html" class="btn btn-default save">Save and close</a>
         </div>
       </div>
 			
-      <div id="metadata" class="tab-pane fade">
+      <!-- <div id="metadata" class="tab-pane fade">
           <h4>5. Add metadata</h4>
           <p>Add metadata to the SIARD file.</p>
           <div class="summary">
@@ -311,7 +296,7 @@
             <a data-toggle="pill" href="#import" class="btn btn-default back">&lt; Back</a>
             <a href="index.html" class="btn btn-default">Save and close</a>
           </div>
-      </div>
+      </div> -->
       
 		</div>
 						

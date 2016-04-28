@@ -13,22 +13,23 @@ body {
 
 header {
   width: 80%;
-  max-width: 910px;
+  max-width: 774px;
   margin: 0 auto 3rem; }
-  @media screen and (max-width: 1133px) {
+  @media screen and (max-width: 964px) {
     header {
       width: 90%; } }
-  @media screen and (max-width: 1133px) {
+  @media screen and (max-width: 857px) {
     header {
       width: 100%; } }
-  @media screen and (max-width: 906px) {
+  @media screen and (max-width: 771px) {
     header {
-      -webkit-transform: scale();
-      transform: scale(); } }
+      -webkit-transform: scale(0.8);
+      transform: scale(0.8);
+      width: 110%; } }
 
 .main-container {
   width: 80%;
-  max-width: 910px;
+  max-width: 774px;
   margin: 0 auto; }
 
 .main-option-wrap {

@@ -16,7 +16,8 @@ function toggleNav(that) {
 	pill.addClass("active");
 }
 
-$("header li.active").nextAll().css("pointer-events", "none");
+// Not quite right yet o.O
+// $("header li.active").nextAll().css("pointer-events", "none");
 
 $(".coming-soon").click(function(){
 	alert("Coming soon");
@@ -51,13 +52,14 @@ $('#invert-selection').click(function() {
 $(".table-select-toggle").click(function(){
 	// TODO check first child if all siblings checked too
 	// TODO uncheck first child if 1 sibling unchecked	
-	// $(':checkbox').each(function() {
-  	// this.checked = true;
-	// });
 });
 
 
-// TODO: animate loading bar only when we get on this tab
+$(':checkbox').each(function() {
+	this.checked = true;
+});
+
+
 var loadingProgress = 0;
 function loadProgress() {
 	if (loadingProgress < 100) {
@@ -65,6 +67,15 @@ function loadProgress() {
 		$(".progress-bar").attr("aria-valuenow", loadingProgress);
 		$(".progress-bar").css("width", loadingProgress + "%");
 		$(".loading-progress-status").text(loadingProgress + "%");
+		
+		$(".save").attr("disabled", true);
+	} else {
+		$(".save").attr("disabled", false);
+		$(".progress-feedback").text("Your download is ready.");
 	}
 };
-var intervalLoading = setInterval(loadProgress, 1000);
+$(document).click(function(){
+	if ($("li.import").hasClass("active")) {
+		var intervalLoading = setInterval(loadProgress, 60);
+	}
+});
