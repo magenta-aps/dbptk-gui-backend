@@ -1,7 +1,7 @@
 from enum import Enum
 from flask import Flask, jsonify, request, abort
 from flask.ext.cors import CORS
-from os import listdir
+from os import listdir, makedirs
 from os.path import isfile, isdir, isabs, islink, join
 from subprocess import Popen, PIPE
 
@@ -212,6 +212,22 @@ def list_dir():
     except OSError:
         return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.COULD_NOT_LIST_FOLDER_CONTENT})
     return jsonify(content)
+
+
+@app.route('/mkdir', methods = ['POST'])
+def make_dir():
+    if not request.json:
+        abort(400)
+    if not 'path' in request.json:
+        return jsonify({'status': STATUS.ERROR, 'message': '\'Path\' missing in JSON request'})
+    path = request.json['path']
+    if not isabs(path):
+        return jsonify({'status': STATUS.ERROR, 'message': 'Use absolute path name'})
+    try:
+        makedirs(path, 0755)
+    except OSError, e:
+        return jsonify({'status': STATUS.ERROR, 'message': e[1]})
+    return jsonify({'status': STATUS.OK})
 
 
 @app.route('/run', methods=['POST'])

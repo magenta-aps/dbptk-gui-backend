@@ -153,6 +153,17 @@ returns
 }
 ```
 
+### POST http://localhost:5000/mkdir
+Consumes JSON containing the absolute path to the folder(s) that should be created.
+
+Example
+```
+$ curl -H "Content-Type: application/json" -X POST -d '{"path": "/tmp/test"}' http://localhost:5000/mkdir
+{
+  "status": "OK"
+}
+```
+
 ### POST http://localhost:5000/run
 Starts the DBPTK process by specifying import module settings and export module settings. Consumes JSON - the posted JSON must follow the format shown in the example below.
 
