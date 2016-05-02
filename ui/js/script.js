@@ -1,8 +1,8 @@
+// Navigation from tab to tab:
 $(".next").click(function(){
 	var that = this;
 	toggleNav(that);
 });
-
 $(".back").click(function(){
 	var that = this;
 	toggleNav(that);
@@ -16,14 +16,10 @@ function toggleNav(that) {
 	pill.addClass("active");
 }
 
+// Not quite right yet o.O
+// $("header li.active").nextAll().css("pointer-events", "none");
 
-// TODO: deactivate not reached steps in nav
-
-$(".coming-soon").click(function(){
-	alert("Coming soon");
-});
-
-// TODO: Checkbox stuff: 
+// Checkbox stuff: 
 // - select all
 $('#select-all').click(function() {   
 	$(':checkbox').each(function() {
@@ -52,13 +48,13 @@ $('#invert-selection').click(function() {
 $(".table-select-toggle").click(function(){
 	// TODO check first child if all siblings checked too
 	// TODO uncheck first child if 1 sibling unchecked	
-	// $(':checkbox').each(function() {
-  	// this.checked = true;
-	// });
 });
 
+$(':checkbox').each(function() {
+	this.checked = true;
+});
 
-// TODO: animate loading bar only when we get on this tab
+// Progress bar loading
 var loadingProgress = 0;
 function loadProgress() {
 	if (loadingProgress < 100) {
@@ -66,17 +62,23 @@ function loadProgress() {
 		$(".progress-bar").attr("aria-valuenow", loadingProgress);
 		$(".progress-bar").css("width", loadingProgress + "%");
 		$(".loading-progress-status").text(loadingProgress + "%");
+		
+		$(".save").attr("disabled", true);
+	} else {
+		$(".save").attr("disabled", false);
+		$(".progress-feedback").text("Your download is ready.");
 	}
 };
-var intervalLoading = setInterval(loadProgress, 1000);
+$(document).click(function(){
+	if ($("li.import").hasClass("active")) {
+		var intervalLoading = setInterval(loadProgress, 60);
+	}
+});
 
 
-// TODO later: (when database actually connected)
-// - "Connect & Next" should only forward when connection worked 
-// - animate loading bar according to process
-// - Generate content dynamically
-// - Make tables sortable
 
-// Others:
-// - Figure out what "Browse" does
-// - Figure out if dowload destination folder somehow choosable
+
+// 
+$(".coming-soon").click(function(){
+	alert("Coming soon");
+});
