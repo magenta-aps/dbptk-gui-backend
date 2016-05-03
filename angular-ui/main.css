@@ -99,3 +99,81 @@ select {
 .step-header .mdl-cell:first-child .step-header--step::before {
     content: none;   
 }
+
+#pick-folder-dialog {
+    width: 30rem;
+    max-width: 90%;
+    overflow: auto;
+}
+
+.tree-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tree-list li {
+    display: block;
+    padding: 0 0 0 1rem;
+}
+
+.tree-list--node {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tree-list--node:focus {
+    background-color: red;
+}
+
+.tree-list--node .material-icons {
+    margin-right: 0.5rem;
+}
+
+
+/*
+ * Dialog polyfill ( https://github.com/GoogleChrome/dialog-polyfill )
+ */
+
+dialog {
+  position: absolute;
+  left: 0; right: 0;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: -webkit-fit-content;
+  height: fit-content;
+  margin: auto;
+  border: solid;
+  padding: 1em;
+  background: white;
+  color: black;
+  display: none;
+}
+
+dialog[open] {
+  display: block;
+}
+
+dialog + .backdrop {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0,0,0,0.1);
+}
+
+/* for small devices, modal dialogs go full-screen */
+@media screen and (max-width: 540px) {
+  dialog[_polyfill_modal] {  /* TODO: implement */
+    top: 0;
+    width: auto;
+    margin: 1em;
+  }
+}
+
+._dialog_overlay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+}
