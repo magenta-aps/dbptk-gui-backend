@@ -164,14 +164,11 @@ app.controller('DbptkCtrl', function($scope, $http) {
             $event.stopPropagation();
             $scope.pickFldr.activeFldr = fldr.path;
             $scope.pickFldr.listSubFldrs(fldr);
-            console.log($scope.pickFldr.activeFldr);
         },
         updateInput: function(target) {
             $scope.model.importModules['siard-dk']['import-folder'] = $scope.pickFldr.activeFldr;
-            console.log(target);
             target = $scope.pickFldr.activeFldr;
             pickFolderDiag.close();
-            console.log(target);
         }
     };
     
