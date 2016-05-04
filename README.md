@@ -131,6 +131,32 @@ $ curl http://localhost:5000/getLog
 	...
 ```
 
+### POST http://localhost:5000/getTableList
+Consumes JSON containing the path to the file containing the generated list of tables (this file can be generated with 
+the DBPTK export module "list-tables"). An example of the content for table list file could be (in this case for the standard 
+[world](https://dev.mysql.com/doc/index-other.html) database) the following:
+
+Example for the standard world database
+```
+world.City
+world.Country
+world.CountryLanguage
+```
+
+To get these tables as JSON call something like this:
+
+```
+$ curl -X POST -H "Content-Type: application/json" -d '{"path":"/tmp/tables.txt"}' http://localhost:5000/getTableList
+{
+  "status": "OK", 
+  "tables": [
+    "world.City", 
+    "world.Country", 
+    "world.CountryLanguage"
+  ]
+}
+```
+
 ### POST http://localhost:5000/listdir
 Consumes JSON containing the path to a folder from which we wish to list the contents.
 
