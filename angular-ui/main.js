@@ -47,59 +47,6 @@ app.controller('DbptkCtrl', function($scope, $http) {
     });
     
     
-    // Script for picking a folder from the filesystem
-    var pfdialog = document.querySelector('#pick-folder-dialog');
-    var showDialogButton = document.querySelector('#siard-dk-import-folder');
-    $scope.currentFolder = '/';
-    
-    if (! pfdialog.showModal) {
-        dialogPolyfill.registerDialog(pfdialog);
-    };
-    
-    showDialogButton.addEventListener('click', function() {
-        pfdialog.showModal();
-        $scope.traverseDown($scope.currentFolder);
-    });
-    
-    pfdialog.querySelector('.close').addEventListener('click', function() {
-        $scope.model.importModules['siard-dk']['import-folder'] = $scope.currentFolder;
-        $scope.currentFolder = '/';
-        pfdialog.close();
-    });
-    
-    $scope.traverseUp = function() {
-        
-    };
-    
-    $scope.traverseDown = function(currentPath) {
-        if (currentPath !== '/') {
-            $scope.currentFolder = $scope.currentFolder + '/' + currentPath;
-        };
-        $http.post( "http://localhost:5000/listdir", {'path': $scope.currentFolder} )
-        .then(function(response) {
-            // debugger;
-            $scope.folders = [];
-            for (item in response.data) {
-                if (response.data[item] === 'folder') {
-                    $scope.folders.push(item);
-                };
-            };
-        });
-    };
-    
-    $http.post( "http://localhost:5000/listdir", {'path': $scope.currentFolder} )
-    .then(function(response) {
-        // debugger;
-        $scope.folders = [];
-        for (item in response.data) {
-            if (response.data[item] === 'folder') {
-                console.log(item);
-                $scope.folders.push(item);
-            };
-        };
-    });
-    
-    
     // Commit the form and start exporting
     $scope.startImport = function() {
         
@@ -173,6 +120,56 @@ app.controller('DbptkCtrl', function($scope, $http) {
         $scope.states.progress = false;
         $scope.states.home = true;
         
+    };
+    
+    
+    // Init Folder picker dialog
+    var pickFolderDiag = document.querySelector('#pick-folder-dialog');
+    var pickFolderDiagBtn = document.querySelector('#siard-dk-import-folder');
+    if (! pickFolderDiag.showModal) {
+        dialogPolyfill.registerDialog(pickFolderDiag);
+    }
+    pickFolderDiagBtn.addEventListener('click', function() {
+        $scope.pickFldr = Object.create(FldrPckr);
+        $scope.pickFldr.listSubFldrs($scope.pickFldr.fldrs[0]);
+        pickFolderDiag.showModal();
+    });
+    pickFolderDiag.querySelector('.close').addEventListener('click', function() {
+        pickFolderDiag.close();
+    });
+    
+    
+    // Script for picking a folder from the filesystem
+    FldrPckr = {
+        fldrs: [
+            { name: '/', path: '/', fldrs: [] }
+        ],
+        activeFldr: '/',
+        listSubFldrs: function(someFldr) {
+            $http.post( "http://localhost:5000/listdir", {'path': someFldr.path} )
+            .then(function(response) {
+                // debugger;
+                for (item in response.data) {
+                    if (response.data[item] === 'folder') {
+                        var folder = {};
+                        folder.path = someFldr.path + item + '/';
+                        folder.name = item;
+                        folder.fldrs = [];
+                        someFldr.fldrs.push(folder);
+                    };
+                };
+            });
+        },
+        clickFolder: function($event, fldr) {
+            $event.stopPropagation();
+            $scope.pickFldr.activeFldr = fldr.path;
+            $scope.pickFldr.listSubFldrs(fldr);
+        },
+        updateInput: function(target) {
+            $scope.model.importModules['siard-dk']['import-folder'] = $scope.pickFldr.activeFldr;
+            target = $scope.pickFldr.activeFldr;
+            pickFolderDiag.close();
+        }
     };
     
     
