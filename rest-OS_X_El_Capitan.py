@@ -103,8 +103,7 @@ class JSONChecker(object):
                                          'export-pretty-xml': (PARAMETER.OPTIONAL, False), 'export-table-filter': (PARAMETER.OPTIONAL, True)}),
                       'siard-dk': Module({'export-folder': (PARAMETER.REQUIRED, True), 'export-archiveIndex': (PARAMETER.OPTIONAL, True),
                                           'export-contextDocumentationIndex': (PARAMETER.OPTIONAL, True),
-                                          'export-contextDocumentationFolder': (PARAMETER.OPTIONAL, True),
-                                          'export-table-filter': (PARAMETER.OPTIONAL, True)})}
+                                          'export-contextDocumentationFolder': (PARAMETER.OPTIONAL, True)})}
     
     @staticmethod
     def checkJson(json):
@@ -155,8 +154,7 @@ app = Flask(__name__)
 CORS(app)
 
 status = STATUS.NOT_RUNNING
-# path_to_jar = None
-path_to_jar = '/home/andreas/eark/db-preservation-toolkit/dbptk-core/target/dbptk-app-2.0.0-beta4.0.jar'
+path_to_jar = None
 process = None
 
 
@@ -190,22 +188,6 @@ def get_log():
 
     return jsonify({'log': log_entries})
 
-
-@app.route('/getTableList', methods = ['POST'])
-def get_tables():
-    if not request.json:
-        abort(400)
-    if not 'path' in request.json:
-        return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.PATH_NOT_FOUND})
-    path = request.json['path']
-    if not isfile(path):
-        return jsonify({'status': STATUS.ERROR, 'message': MESSAGES.PATH_IS_NOT_A_FILE})
-    with open(path, 'r') as f:
-        lines = f.readlines()
-    if len(lines) == 0:
-        return jsonify({'status': STATUS.ERROR, 'message': 'No tables in file'})
-    return jsonify({'status': STATUS.OK, 'tables': [l[:-1] for l in lines]})
-    
 
 @app.route('/listdir', methods = ['POST'])
 def list_dir():
@@ -272,7 +254,7 @@ def start_process():
             
     import_module = request.json["import-module"]
     export_module = request.json["export-module"]
-    args = [u'java', u'-jar', path_to_jar, u'-i']
+    args = [u'/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java', u'-jar', path_to_jar, u'-i']
     add_parameter_args(args, 'import', import_module)
     args.append('-e')   
     add_parameter_args(args, 'export', export_module)
@@ -329,7 +311,6 @@ def terminate_process():
             return jsonify(error_json)
     else:
         return jsonify(error_json)
-
 
 if __name__ == '__main__':
     webbrowser.open('file://' + dirname(abspath(__file__)) + '/angular-ui/index.html')

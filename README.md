@@ -52,17 +52,23 @@ $ (sudo) pip install flask-cors
 $ (sudo) pip install enum
 ```
 
-# Running the server
+# Running the server and GUI
 
-All you have to do to run the server is to run the file `rest.py` with Python. Run the following command from the folder where 
-`rest.py` is located:
+All you have to do to run a python command that starts the server and opens a browser window for the GUI.
+Run the following command from the folder where `rest.py` is located:
 
-**Ubuntu and OS X:**
+**FOr Ubuntu:**
 ```
 $ python rest.py
 ```
 
+**For OS X El Capitan:**
+```
+$ python rest-OS_X_El_Capitan.py
+```
+
 The server should now be running on your local machine listening on port 5000.
+
 
 # Usage
 
