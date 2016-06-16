@@ -171,6 +171,10 @@ app.controller('DbptkCtrl', function($scope, $http) {
         },
         
         pick: function(inputEl) {
+            $scope.fldrPckr.fldrs = [
+                { name: '/', path: '/', fldrs: [] }
+            ];
+            $scope.fldrPckr.activeFldr = '/';
             $scope.fldrPckr.inputElement = document.getElementById(inputEl);
             $scope.fldrPckr.pickFolderDiag = document.querySelector('#pick-folder-dialog');
             $scope.fldrPckr.pickFolderDiag.showModal();
@@ -186,7 +190,11 @@ app.controller('DbptkCtrl', function($scope, $http) {
         clickFolder: function($event, fldr) {
             $event.stopPropagation();
             $scope.fldrPckr.activeFldr = fldr.path;
-            $scope.fldrPckr.listSubFldrs(fldr);
+            if (fldr.fldrs.length > 0) {
+                fldr.fldrs = [];
+            } else {
+                $scope.fldrPckr.listSubFldrs(fldr);
+            };
         },
         
         updateInput: function() {
