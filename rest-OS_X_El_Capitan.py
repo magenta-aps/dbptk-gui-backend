@@ -254,7 +254,7 @@ def start_process():
             
     import_module = request.json["import-module"]
     export_module = request.json["export-module"]
-    args = [u'java', u'-jar', path_to_jar, u'-i']
+    args = [u'/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java', u'-jar', path_to_jar, u'-i']
     add_parameter_args(args, 'import', import_module)
     args.append('-e')   
     add_parameter_args(args, 'export', export_module)
@@ -311,7 +311,6 @@ def terminate_process():
             return jsonify(error_json)
     else:
         return jsonify(error_json)
-
 
 if __name__ == '__main__':
     webbrowser.open('file://' + dirname(abspath(__file__)) + '/angular-ui/index.html')

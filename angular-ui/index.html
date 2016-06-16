@@ -23,17 +23,17 @@
                 <section class="page-content" ng-show="states.home">
                    
                     <div class="mdl-grid">
-                        <div class="mdl-cell mdl-cell--4-col">
+                        <div class="mdl-cell mdl-cell--12-col">
                             <button
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
                                 ng-click="states.home = false; states.connect = true">
                                 <i class="material-icons">input</i>
-                                Import/export database to/from SIARD
+                                Import/export database or SIARD
                             </button>
                         </div>
-                        <div class="mdl-cell mdl-cell--8-col">
+                        <div class="mdl-cell mdl-cell--12-col">
                             <p>
-                                Connect to live DBMS or SIARD file and export to another live DBMS or SIARD.
+                                Connect to live DBMS or SIARD files and export to another live DBMS or SIARD.
                             </p>
                             <p>
                                 Supported formats are SIARD-1, SIARD-2, SIARD-DK and DBMSes like Oracle, MySQL, PostgrSQL, and Microsoft SQL Server
@@ -48,7 +48,7 @@
                     <div class="mdl-grid step-header">
                         <div class="mdl-cell mdl-cell--4-col">
                             <span class="step-header--step step-header--step_active">
-                                1: Connect to database
+                                1: Select input
                             </span>
                         </div>
                         <div class="mdl-cell mdl-cell--4-col">
@@ -67,10 +67,10 @@
                         <div class="mdl-grid">
                             <div class="mdl-cell mdl-cell--12-col">
                             
-                                <h2 class="legend">1. Connect to database</h2>
-                                <p>Select your database management system (DBMS) and configure the connection.</p>
+                                <h2 class="legend">1. Select database or SIARD input</h2>
+                                <p>Select SIARD or database management system and configure the connection.</p>
                                 
-                                <label for="imp-module">DBMS</label>
+                                <label for="imp-module">Input DB/SIARD</label>
                                 <select id="imp-module" ng-model="model.importChoice">
                                     <option value="jdbc">JDBC</option>
                                     <option value="microsoft-access">Microsoft Access</option>
@@ -82,7 +82,7 @@
                                     <option value="siard-2">SIARD-2</option>
                                     <option value="siard-dk">SIARD-DK</option>
                                 </select>
-                                <p class="input-help">DBMS is your database management system.</p>
+                                <p class="input-help">Select an input database or SIARD.</p>
                                 
                             </div>
                         </div>
@@ -266,7 +266,7 @@
                     <div class="mdl-grid step-header">
                         <div class="mdl-cell mdl-cell--4-col">
                             <span class="step-header--step">
-                                1: Connect to database
+                                1: Select input
                             </span>
                         </div>
                         <div class="mdl-cell mdl-cell--4-col">
@@ -285,10 +285,10 @@
                         <div class="mdl-grid">
                             <div class="mdl-cell mdl-cell--12-col">
                         
-                                <h2 class="legend">2: Select SIARD output</h2>
-                                <p>Select the SIARD details and output location.</p>
+                                <h2 class="legend">2: Select database or SIARD output</h2>
+                                <p>Select the SIARD or database details and output location.</p>
                                 
-                                <label for="imp-module">SIARD version</label>
+                                <label for="imp-module">Output DB/SIARD</label>
                                 <select id="imp-module" ng-model="model.exportChoice">
                                     <option value="jdbc">JDBC</option>
                                     <option value="list-tables">List tables</option>
@@ -300,7 +300,7 @@
                                     <option value="siard-2">SIARD-2</option>
                                     <option value="siard-dk">SIARD-DK</option>
                                 </select>
-                                <p class="input-help">SIARD version is the type of SIARD you want to output.</p>
+                                <p class="input-help">Select an output database or SIARD.</p>
                                 
                             </div>
                         </div>
@@ -515,7 +515,7 @@
                     <div class="mdl-grid step-header">
                         <div class="mdl-cell mdl-cell--4-col">
                             <span class="step-header--step">
-                                1: Connect to database
+                                1: Select input
                             </span>
                         </div>
                         <div class="mdl-cell mdl-cell--4-col">
@@ -532,7 +532,7 @@
                     
                     <div class="mdl-grid">
                         <div class="mdl-cell mdl-cell--12-col">
-                            <h2 class="legend">3. Exporting live datadase to SIARD</h2>
+                            <h2 class="legend">3. Exporting data: <strong>{{ exportStatus }}</strong></h2>
                         </div>
                     </div>
                     <div class="mdl-grid">
@@ -554,8 +554,18 @@
                     <div class="mdl-grid">
                         <div class="mdl-cell mdl-cell--12-col">
                             <div>
-                                <p><strong>{{ exportStatus }}</strong></p>
-                                <p>Your SIARD file will be available at <a href="../temp/">/temp/</a></p>
+                                <p align="center">
+                                    Server says:
+                                    <code>
+                                        {{ logger }}
+                                    </code>
+                                </p>
+                                <p align="center">
+                                    Your import/export parameters are:
+                                    <code>
+                                        {{ importData }}
+                                    </code>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -569,7 +579,7 @@
                             <button
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
                                 ng-click="exitApp();">
-                                Save and close
+                                Close
                             </button>
                         </div>
                     </div>
@@ -579,16 +589,9 @@
             
         </main>
         
-        <div id="callData" ng-show="dcOpen">
-            <div>
-            {{ importData }}
-            </div>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="displayCallToggle()">Close</button>
-        </div>
-        
         <footer class="mdl-mini-footer">
-            <div class="mdl-mini-footer__left-section">
-                <p><strong>Ajax messages:</strong> {{ logger }}</p>
+            <div class="mdl-mini-footer__right-section">
+                <p>Database Preservation Toolkit UI created by <a href="http://www.magenta.dk">Magenta</a></p>
             </div>
         </footer>
         
