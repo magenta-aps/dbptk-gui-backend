@@ -331,6 +331,6 @@ def terminate_process():
         return jsonify(error_json)
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 #     webbrowser.open('file://' + dirname(abspath(__file__)) + '/angular-ui/index.html')
-#     app.run(debug=True)
+    app.run(debug=True)
