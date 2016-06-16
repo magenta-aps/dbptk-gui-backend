@@ -1,4 +1,4 @@
-import webbrowser
+# import webbrowser
 from enum import Enum
 from flask import Flask, jsonify, request, abort
 from flask.ext.cors import CORS
@@ -331,6 +331,6 @@ def terminate_process():
         return jsonify(error_json)
 
 
-if __name__ == '__main__':
-    webbrowser.open('file://' + dirname(abspath(__file__)) + '/angular-ui/index.html')
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     webbrowser.open('file://' + dirname(abspath(__file__)) + '/angular-ui/index.html')
+#     app.run(debug=True)
