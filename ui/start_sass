@@ -1,6 +1,0 @@
-#!/bin/sh
-
-sass --watch css/style.scss:css/style.css
-
-
-# go to folder (cd), then write ./start_sass
