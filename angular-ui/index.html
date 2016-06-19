@@ -231,8 +231,9 @@
                         
                         <div ng-show="model.importChoice === 'siard-dk'" class="mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col">
-                                <label for="siard-dk-import-folder">* Folder</label>
-                                <input id="siard-dk-import-folder" ng-model="model.importModules['siard-dk']['import-folder']" type="text">
+                                <label for="siard-dk-import-folder" class="fldrpckr-label">* Folder</label>
+                                <input id="siard-dk-import-folder" class="fldrpckr-input" ng-model="model.importModules['siard-dk']['import-folder']" type="text">
+                                <button class="fldrpckr mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" title="Pick a folder" ng-click="fldrPckr.pick('siard-dk-import-folder')"><i class="material-icons">folder</i></button>
                                 <p class="input-help">Path to (the first) SIARDDK archive folder. Archive folder name must match the expression AVID.[A-ZÆØÅ]{2,4}.[1-9][0-9]*.1 Any additional parts of the archive (eg. with suffixes .2 .3 etc) referenced in the tableIndex.xml will also be processed.</p>
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
@@ -436,9 +437,10 @@
                         
                         <div ng-show="model.exportChoice === 'siard-1'" class="mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col">
-                                <label for="siard-1-export-file">* File</label>
-                                <input id="siard-1-export-file" ng-model="model.exportModules['siard-1']['export-file']" type="file">
-                                <p class="input-help">Path to SIARD1 archive file</p>
+                                <label for="siard-1-export-file" class="fldrpckr-label">* File</label>
+                                <input id="siard-1-export-file" class="fldrpckr-input" ng-model="model.exportModules['siard-1']['export-file']" type="text">
+                                <button class="fldrpckr mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" title="Pick a folder" ng-click="fldrPckr.pick('siard-1-export-file')"><i class="material-icons">folder</i></button>
+                                <p class="input-help">Pick a target directory and add a filename for SIARD1 archive file</p>
                                 <label for="siard-1-export-tablefilter">Table filter</label>
                                 <input id="siard-1-export-tablefilter" ng-model="model.exportModules['siard-1']['export-tableFilter']" type="file">
                                 <p class="input-help">Path to file with the list of tables that should be exported</p>
@@ -455,9 +457,10 @@
                         
                         <div ng-show="model.exportChoice === 'siard-2'" class="mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col">
-                                <label for="siard-2-export-file">* File</label>
-                                <input id="siard-2-export-file" ng-model="model.exportModules['siard-2']['export-file']" type="file">
-                                <p class="input-help">Path to SIARD2 archive file</p>
+                                <label for="siard-2-export-file" class="fldrpckr-label">* File</label>
+                                <input id="siard-2-export-file" class="fldrpckr-input" ng-model="model.exportModules['siard-2']['export-file']" type="text">
+                                <button class="fldrpckr mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" title="Pick a folder" ng-click="fldrPckr.pick('siard-2-export-file')"><i class="material-icons">folder</i></button>
+                                <p class="input-help">Pick a target directory and add a filename for SIARD2 archive file</p>
                                 <label for="siard-2-export-tablefilter">Table filter</label>
                                 <input id="siard-2-export-tablefilter" ng-model="model.exportModules['siard-2']['export-tableFilter']" type="file">
                                 <p class="input-help">Path to file with the list of tables that should be exported</p>
@@ -474,9 +477,10 @@
                         
                         <div ng-show="model.exportChoice === 'siard-dk'" class="mdl-grid">
                             <div class="mdl-cell mdl-cell--6-col">
-                                <label for="siard-dk-export-folder">* Folder</label>
-                                <input id="siard-dk-export-folder" ng-model="model.exportModules['siard-dk']['export-folder']" type="text">
-                                <p class="input-help">Path to SIARDDK archive folder. Archive folder name must match the expression AVID.[A-ZÆØÅ]{2,4}.[1-9][0-9]*.[1-9][0-9]</p>
+                                <label for="siard-dk-export-folder" class="fldrpckr-label">* Folder</label>
+                                <input id="siard-dk-export-folder" class="fldrpckr-input" ng-model="model.exportModules['siard-dk']['export-folder']" type="text">
+                                <button class="fldrpckr mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" title="Pick a folder" ng-click="fldrPckr.pick('siard-dk-export-folder')"><i class="material-icons">folder</i></button>
+                                <p class="input-help">Pick a path to SIARDDK archive folder. Add a folder name matching the expression AVID.[A-ZÆØÅ]{2,4}.[1-9][0-9]*.[1-9][0-9]</p>
                                 <label for="siard-dk-export-archiveIndex">Archive index</label>
                                 <input id="siard-dk-export-archiveIndex" ng-model="model.exportModules['siard-dk']['export-archiveIndex']" type="file">
                                 <p class="input-help">Path to archiveIndex.xml input file</p>
@@ -591,28 +595,31 @@
         
         <footer class="mdl-mini-footer">
             <div class="mdl-mini-footer__right-section">
-                <p>Database Preservation Toolkit UI created by <a href="http://www.magenta.dk">Magenta</a></p>
+                <p align="right">
+                    <a href="https://github.com/magenta-aps/dbptk-gui-backend" target="_blank">Database Preservation Toolkit GUI</a> created by <a href="http://www.magenta.dk">Magenta</a>
+                    |
+                    <a href="https://github.com/keeps/db-preservation-toolkit" target="_blank">Database Preservation Toolkit backend</a> created by <a href="http://www.keep.pt/en">KEEPS</a>
+                </p>
             </div>
         </footer>
         
-        <dialog id="pick-folder-dialog" class="mdl-dialog">
-            <h4 class="mdl-dialog__title">Choose a folder</h4>
+        <dialog id="pick-folder-dialog" class="mdl-dialog" closed>
+            <strong class="mdl-dialog__title">Pick a folder</strong>
             <div class="mdl-dialog__content">
                 <script type="text/ng-template"  id="tree_item_renderer.html">
-                    <button class="tree-list--node">
+                    <button class="tree-list--node mdl-button mdl-js-button mdl-js-ripple-effect">
                         <i class="material-icons">folder</i> {{ folder.name }}
                     </button>
                     <ul class="tree-list">
-                        <li ng-repeat="folder in folder.fldrs" ng-include="'tree_item_renderer.html'" ng-click="pickFldr.clickFolder($event, folder)"></li>
+                        <li ng-repeat="folder in folder.fldrs" ng-include="'tree_item_renderer.html'" ng-click="fldrPckr.clickFolder($event, folder)"></li>
                     </ul>
                 </script>
                 <ul class="tree-list">
-                    <li ng-repeat="folder in pickFldr.fldrs" ng-include="'tree_item_renderer.html'"></li>
+                    <li ng-repeat="folder in fldrPckr.fldrs" ng-include="'tree_item_renderer.html'"></li>
                 </ul>
             </div>
             <div class="mdl-dialog__actions">
-                <button type="button" class="mdl-button" ng-click="pickFldr.updateInput()">Select</button>
-                <button type="button" class="mdl-button" disabled>New folder</button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="fldrPckr.updateInput()">Select</button>
                 <button type="button" class="mdl-button close">Cancel</button>
             </div>
         </dialog>
