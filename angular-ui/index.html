@@ -481,11 +481,11 @@
                                 <input id="siard-dk-export-folder" class="fldrpckr-input" ng-model="model.exportModules['siard-dk']['export-folder']" type="text">
                                 <button class="fldrpckr mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" title="Pick a folder" ng-click="fldrPckr.pick('siard-dk-export-folder')"><i class="material-icons">folder</i></button>
                                 <p class="input-help">Pick a path to SIARDDK archive folder. Add a folder name matching the expression AVID.[A-ZÆØÅ]{2,4}.[1-9][0-9]*.[1-9][0-9]</p>
+                            </div>
+                            <div class="mdl-cell mdl-cell--6-col">
                                 <label for="siard-dk-export-archiveIndex">Archive index</label>
                                 <input id="siard-dk-export-archiveIndex" ng-model="model.exportModules['siard-dk']['export-archiveIndex']" type="file">
                                 <p class="input-help">Path to archiveIndex.xml input file</p>
-                            </div>
-                            <div class="mdl-cell mdl-cell--6-col">
                                 <label for="siard-dk-export-contextDocumentationIndex">Context documentation index</label>
                                 <input id="siard-dk-export-contextDocumentationIndex" ng-model="model.exportModules['siard-dk']['export-contextDocumentationIndex']" type="file">
                                 <p class="input-help">Path to contextDocumentationIndex.xml input file</p>
@@ -558,17 +558,8 @@
                     <div class="mdl-grid">
                         <div class="mdl-cell mdl-cell--12-col">
                             <div>
-                                <p align="center">
-                                    Server says:
-                                    <code>
-                                        {{ logger }}
-                                    </code>
-                                </p>
-                                <p align="center">
-                                    Your import/export parameters are:
-                                    <code>
-                                        {{ importData }}
-                                    </code>
+                                <p align="center" ng-show="logger">
+                                    Server says: {{ logger }}
                                 </p>
                             </div>
                         </div>
@@ -598,7 +589,7 @@
                 <p align="right">
                     <a href="https://github.com/magenta-aps/dbptk-gui-backend" target="_blank">Database Preservation Toolkit GUI</a> created by <a href="http://www.magenta.dk">Magenta</a>
                     |
-                    <a href="https://github.com/keeps/db-preservation-toolkit" target="_blank">Database Preservation Toolkit backend</a> created by <a href="http://www.keep.pt/en">KEEPS</a>
+                    <a href="https://github.com/keeps/db-preservation-toolkit" target="_blank">Database Preservation Toolkit</a> created by <a href="http://www.keep.pt/en">KEEPS</a>
                 </p>
             </div>
         </footer>
