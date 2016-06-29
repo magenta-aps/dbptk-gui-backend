@@ -1,8 +1,12 @@
-# Backend to control the Database Preservation Toolkit (DBPTK)
+# GUI for the Database Preservation Toolkit (DBPTK)
 
+The frontend for this GUI is written in AngularJS and you can use the GUI in a standard webbrowser. 
 The backend runs as a RESTful service accepting calls to interact with the [DBPTK](https://github.com/keeps/db-preservation-toolkit).
 
-# Installation
+The plan is to ship this GUI as a [Docker](http://www.docker.com) container which then can be installed everywhere - for now 
+we have the instructions on how to install and run the GUI manually on Linux and OS X:
+
+# Installation of the backend (Ubuntu and OS X)
 
 All you need to do to run the backend is to download and run the file rest.py, i.e. everything is collected in a single file. 
 There are a few prerequests though. The following instructions are for Ubuntu and OS X (El Capitan):
@@ -54,7 +58,7 @@ $ (sudo) pip install enum
 
 # Running the server and GUI
 
-All you have to do to run a python command that starts the server and opens a browser window for the GUI.
+All you have to do is to run a python command that starts the server and opens a browser window for the GUI.
 Run the following command from the folder where `rest.py` is located:
 
 **FOr Ubuntu:**
@@ -67,10 +71,11 @@ $ python rest.py
 $ python rest-OS_X_El_Capitan.py
 ```
 
-The server should now be running on your local machine listening on port 5000.
+The server should now be running on your local machine listening on port 5000, and a tab 
+containing the GUI should have opened in your browser.
 
 
-# Usage
+# Backend usage (only relevant for developers)  
 
 The following resources are available:
 
