@@ -58,10 +58,13 @@ $ (sudo) pip install enum
 
 # Running the server and GUI
 
-All you have to do is to run a python command that starts the server and opens a browser window for the GUI.
+All you have to do is to run a python command that starts the server and opens a browser window for the GUI, 
+but before you do that, you must specify the path to the DBPTK jar file. This is done in 
+[line 159](https://github.com/magenta-aps/dbptk-gui-backend/blob/master/rest.py#L159) of the file `rest.py`.
+
 Run the following command from the folder where `rest.py` is located:
 
-**FOr Ubuntu:**
+**For Ubuntu:**
 ```
 $ python rest.py
 ```
