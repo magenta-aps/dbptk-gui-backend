@@ -5,6 +5,7 @@ from flask.ext.cors import CORS
 from os import listdir, makedirs
 from os.path import isfile, isdir, isabs, islink, join, dirname, abspath
 from subprocess import Popen, PIPE
+from getjarvers import getjarvers
 
 class STATUS(Enum):
     DONE = 'DONE'
@@ -156,7 +157,10 @@ CORS(app)
 
 status = STATUS.NOT_RUNNING
 # path_to_jar = None
-path_to_jar = '/home/andreas/eark/db-preservation-toolkit/dbptk-core/target/dbptk-app-2.0.0-beta4.0.jar'
+# path_to_jar = '/home/andreas/eark/db-preservation-toolkit/dbptk-core/target/dbptk-app-2.0.0-beta4.0.jar'
+path_to_jar = getjarvers()
+print "Using jar file: {}".format(path_to_jar)
+
 process = None
 
 
@@ -332,5 +336,5 @@ def terminate_process():
 
 
 if __name__ == '__main__':
-    webbrowser.open('file://' + dirname(abspath(__file__)) + '/angular-ui/index.html')
+#    webbrowser.open('file://' + dirname(abspath(__file__)) + '/angular-ui/index.html')
     app.run(debug=True)
