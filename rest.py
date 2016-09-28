@@ -5,7 +5,7 @@ from flask.ext.cors import CORS
 from os import listdir, makedirs
 from os.path import isfile, isdir, isabs, islink, join, dirname, abspath
 from subprocess import Popen, PIPE
-from getjarvers import getjarvers
+from getjarchive import getjarchive
 
 class STATUS(Enum):
     DONE = 'DONE'
@@ -158,7 +158,7 @@ CORS(app)
 status = STATUS.NOT_RUNNING
 # path_to_jar = None
 # path_to_jar = '/home/andreas/eark/db-preservation-toolkit/dbptk-core/target/dbptk-app-2.0.0-beta4.0.jar'
-path_to_jar = getjarvers()
+path_to_jar = getjarchive(debug=1)
 print "Using jar file: {}".format(path_to_jar)
 
 process = None
@@ -304,6 +304,7 @@ def set_jar():
     return jsonify({'status': STATUS.OK})
 
 
+@app.route('/', methods = ['GET'])
 @app.route('/status', methods = ['GET'])
 def get_status():
     try:
