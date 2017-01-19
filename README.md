@@ -3,9 +3,6 @@
 The frontend for this GUI is written in AngularJS and you can use the GUI in a standard webbrowser. 
 The backend runs as a RESTful service accepting calls to interact with the [DBPTK](https://github.com/keeps/db-preservation-toolkit).
 
-The plan is to ship this GUI as a [Docker](http://www.docker.com) container which then can be installed everywhere - for now 
-we have the instructions on how to install and run the GUI manually on Linux and OS X:
-
 # Installation of the backend (Ubuntu and OS X)
 
 All you need to do to run the backend is to download and run the file rest.py, i.e. everything is collected in a single file. 
@@ -255,6 +252,6 @@ the URL above. If the process is terminated successfully, the following JSON is 
 }
 ```
 
-## Final remarks
+## Contact
 
-Other than this...
+[Magenta Aps](https://www.magenta.dk)
