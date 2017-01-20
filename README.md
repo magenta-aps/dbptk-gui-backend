@@ -52,6 +52,16 @@ $ (sudo) pip install flask
 $ (sudo) pip install flask-cors
 $ (sudo) pip install enum
 ```
+# Installation of the backend in Docker
+
+A Docker image of the DBPTK can be found at the official Docker repository http://cloud.docker.com.
+
+To locate and install the image execute
+
+$ docker run --name dbptk -p 80:80 -p 5000:5000 iamimm/dbptk
+
+For the full documentation see the page https://cloud.docker.com/app/iamimm/repository/docker/iamimm/dbptk/general
+
 
 # Running the server and GUI
 
